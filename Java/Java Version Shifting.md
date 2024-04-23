@@ -16,3 +16,4 @@ export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_181.jdk/Contents/Hom
 check if it is done
 
 <img src="https://assets.leetcode.com/users/images/60568817-2b2e-451e-98d4-693bf1c0b5af_1713839912.1686397.jpeg" width="400px">
+
