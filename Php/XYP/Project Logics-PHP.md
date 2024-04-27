@@ -4,12 +4,16 @@
 
 ## Time
 
-#### string to timestamp
+### string to timestamp
 
 **PHP**
 
 ```php
 strtotime("2024-03-05");
+```
+### timestamp to string 
+```php
+{$REPLACE|date='Y-m-d H:i:s',###}
 ```
 
 # _Templates_
