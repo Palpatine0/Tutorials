@@ -2,7 +2,8 @@
 
 # <span style="color: #990000">Tools</span>
 
-# 1 Time
+# 1 API
+## Time
 
 ### string to timestamp
 
@@ -18,7 +19,15 @@ strtotime("2024-03-05");
 {$REPLACE|date='Y-m-d H:i:s',###}
 ```
 
-# 2 _Templates_
+## Data Transmision
+**HTML**
+```html
+<input type="text" class="huge bLeftRequire input " name="uid" id='uid' value="{$uid}">
+```
+
+--------------------------------------------------------
+
+# 2 Functional Code Combo
 
 ## Ajax
 
