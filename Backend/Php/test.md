@@ -1,21 +1,13 @@
 # 项目实战:  简易在线商店项目
 
-## 目录s
-1. [首页页面](#indexhtml主页页面)
-2. [商品详情页面](#product_detailhtml主页)
-3. [购物车页面](#carthtml购物车页面)
-4. [结算页面](#checkouthtml结算页面)
-5. [用户个人中心页面](#user_profilehtml用户个人中心页面)
-6. [登录页面](#loginhtml登录页面)
-7. [注册页面](#registerhtml注册页面)
-8. [配置php的运行环境](#配置php的运行环境)
-9. [使用include引入PHP代码](#使用include引入php代码)
-10. [数据库](#数据库)
-11. [完善加入购物车功能](#完善加入购物车功能)
-12. [完善结算功能](#完善结算功能)
-13. [完善登录注册功能](#完善登录注册功能)
-14. [完善个人中心页面](#完善个人中心页面)
-
+## 目录
+1. [H5页面](#H5页面)
+2. [配置php的运行环境](#配置php的运行环境)
+3. [使用include引入PHP代码](#使用include引入PHP代码)
+    1. [修改文件扩展名](#修改文件扩展名)
+    2. [创建inc/文件夹并添加.php](#创建inc/文件夹并添加.php)
+    3. [创建header.php和footer.php](#创建header.php和footer.php)
+ 
 
 在本次的实验中我们来构建一个基于PHP的课程评价APP，此网站的静态网页代码如下，该项目使用了Bootstrap框架：
 # H5页面
@@ -634,15 +626,15 @@
 
 
 # 使用include引入PHP代码
-## 1、修改文件扩展名
+## 修改文件扩展名
 首先需要将所有的静态文件`.html`扩展名换成`.php`，这样子做是因为我们即将在这些文件中引入`php`代码，而且`web`服务器是需要知道他们包含
 的`php`代码，便于进行正确的处理
 
-## 2、创建`inc/`文件夹并添加`.php`
+## 创建inc/文件夹并添加.php
 在项目的目录中创建一个inc/文件夹，这个文件夹用于存放页面中可重复的php片段， 例如网站的头部和尾部，
 这样的做法可以避免每个页面上重复相同的HTML代码，以便于之后的维护和更新变得更加简单
 
-## 3、创建`header.php`和`footer.php`
+## 创建header.php和footer.php
 在`inc`文件夹创建`header.php`和`footer.php`
 `header.php`:包含网页的头部分（`<head>`标签、导航栏、开始的`<main>`标签），它将被包含在每个页面的顶部。
 `footer.php`: 包含关闭的`<main>`标签、网页的尾部内容（`<footer>`标签和引入的`Bootstrap`、 `JavaScript`文件），它将被包含在每个页面的底部。
@@ -713,7 +705,7 @@
 </body>
 </html>
 ```
-## 4、在页面包含 `header.php`和`footer.php`，使用`include`语句引入`header.php`、`footer.php`
+## 4、在页面包含header.php和footer.php，使用include语句引入header.php、footer.php
 例如在`index.php`中
 ```html
 <?php include '../inc/header.php'; ?>
