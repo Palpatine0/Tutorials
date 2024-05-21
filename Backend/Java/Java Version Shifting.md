@@ -7,7 +7,7 @@
 ``` 
 <img src="https://pic.leetcode.cn/1713839228-BZMHih-WeChat380c19b7731e728ba336174e753a5c62.jpg" width="400px">
 
-2. shift 
+**S2: shift**
 
 Pick a version dir and export as "JAVA_HOME"
 ```shell
