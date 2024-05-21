@@ -8,7 +8,6 @@
     2. [创建inc/文件夹并添加.php](#创建inc/文件夹并添加.php)
     3. [创建header.php和footer.php](#创建header.php和footer.php)
 
-
 在本次的实验中我们来构建一个基于PHP的课程评价APP，此网站的静态网页代码如下，该项目使用了Bootstrap框架：
 # H5页面
 1、`index.html`(主页页面)
