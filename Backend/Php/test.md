@@ -1,6 +1,6 @@
 # 项目实战:  简易在线商店项目
 
-## 目录ss
+## 目录s
 1. [首页页面](#indexhtml主页页面)
 2. [商品详情页面](#product_detailhtml主页)
 3. [购物车页面](#carthtml购物车页面)
