@@ -1,12 +1,13 @@
 # 项目实战:  简易在线商店项目
 
-## 目录??
+## 目录
 1. [H5页面](#H5页面)
 2. [配置php的运行环境](#配置php的运行环境)
 3. [使用include引入PHP代码](#使用include引入PHP代码)
     1. [修改文件扩展名](#修改文件扩展名)
     2. [创建inc/文件夹并添加.php](#创建inc/文件夹并添加.php)
     3. [创建header.php和footer.php](#创建header.php和footer.php)
+ 
 
 在本次的实验中我们来构建一个基于PHP的课程评价APP，此网站的静态网页代码如下，该项目使用了Bootstrap框架：
 # H5页面
