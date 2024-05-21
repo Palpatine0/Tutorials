@@ -18,8 +18,8 @@
 
 
 在本次的实验中我们来构建一个基于PHP的课程评价APP，此网站的静态网页代码如下，该项目使用了Bootstrap框架：
-
-1. `index.html`(主页页面)
+# H5页面
+1、`index.html`(主页页面)
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -614,7 +614,7 @@
 
 ```
 
-## 配置php的运行环境
+# 配置php的运行环境
 1、创建项目文件夹：在`XMAPP`目录下找到`htdocs`文件夹，创建一个名为`shopping`的文件夹，这个文件夹用于存放项目文件
 
 2、复制网页文件: 将之前创建的静态网页文件（）复制到`shopping`文件夹中的`public`文件夹
@@ -633,16 +633,16 @@
 ![9ae7efd1d211dd53b255eced2e45dbe.png](https://pic.leetcode.cn/1716259135-DLSQbt-9ae7efd1d211dd53b255eced2e45dbe.png)
 
 
-## 使用include引入PHP代码
-### 1、修改文件扩展名
+# 使用include引入PHP代码
+## 1、修改文件扩展名
 首先需要将所有的静态文件`.html`扩展名换成`.php`，这样子做是因为我们即将在这些文件中引入`php`代码，而且`web`服务器是需要知道他们包含
 的`php`代码，便于进行正确的处理
 
-### 2、创建`inc/`文件夹并添加`.php`
+## 2、创建`inc/`文件夹并添加`.php`
 在项目的目录中创建一个inc/文件夹，这个文件夹用于存放页面中可重复的php片段， 例如网站的头部和尾部，
 这样的做法可以避免每个页面上重复相同的HTML代码，以便于之后的维护和更新变得更加简单
 
-### 3、创建`header.php`和`footer.php`
+## 3、创建`header.php`和`footer.php`
 在`inc`文件夹创建`header.php`和`footer.php`
 `header.php`:包含网页的头部分（`<head>`标签、导航栏、开始的`<main>`标签），它将被包含在每个页面的顶部。
 `footer.php`: 包含关闭的`<main>`标签、网页的尾部内容（`<footer>`标签和引入的`Bootstrap`、 `JavaScript`文件），它将被包含在每个页面的底部。
@@ -713,7 +713,7 @@
 </body>
 </html>
 ```
-### 4、在页面包含 `header.php`和`footer.php`，使用`include`语句引入`header.php`、`footer.php`
+## 4、在页面包含 `header.php`和`footer.php`，使用`include`语句引入`header.php`、`footer.php`
 例如在`index.php`中
 ```html
 <?php include '../inc/header.php'; ?>
@@ -728,8 +728,8 @@
 每次修改头部或尾部时，只需要更新 `header.php` 或 `footer.php` 文件，变 更就会自动应用到所有页面上。
 对于你的`PHP`项目中的导航链接，我们需要做的是更新 `header.php`文件中的链接路径，以确保在你的开发环境中它们能正确指向你的`PHP`页面。
 
-## 数据库
-1、创建数据库
+# 数据库
+## 1、创建数据库
 ```sql
 CREATE DATABASE online_store;
 -- 创建用户表
@@ -762,7 +762,7 @@ FOREIGN KEY (product_id) REFERENCES products(id)
 );
 ```
 
-2、插入数据
+## 2、插入数据
 ```sql
 -- 插入用户数据
 INSERT INTO users (username, password, email) VALUES ('user1', 'password1', 'user1@example.com');
@@ -785,11 +785,11 @@ INSERT INTO products (name, description, price, availability, image) VALUES
 ('vehicle6', '无敌超跑，帅到爆炸', 600000, 'In stock', '../img/6.jpg');
 ```
 
-### 2、创建数据库链接文件
+## 3、创建数据库链接文件
 1、在项目根目录下创建`config`文件，创建`db.php`文件
 这个文件包含了定义数据库连接所需的信息（如数据库主机、用户名 、密码和数据库名）和建立连接的代码。使用mysqli扩展来连接到MySQL数据库。
 
-2、编写`db.php`内容
+## 4、编写`db.php`内容
 ```php
 <?php
 define('DB_HOST', 'localhost');
@@ -807,7 +807,7 @@ if ($conn->connect_error) {
 ?>
 
 ```
-3、更新页面使用`include`以包含`db.php`
+## 5、更新页面使用`include`以包含`db.php`
 ```html
 <?php include '../config/db.php'; ?>
 ```
@@ -851,8 +851,8 @@ if ($conn->connect_error) {
 `index`页面效果
 ![image.png](https://pic.leetcode.cn/1716261199-MqFljI-image.png)
 
-### 完善加入购物车功能 
-1、在`product_detail.php`页面添加一个用于输入购买数量的表单
+# 完善加入购物车功能
+## 1、在`product_detail.php`页面添加一个用于输入购买数量的表单
 ```html
 <!-- 添加到购物车表单 -->
 <div id="add-to-cart-form" style="display: none;">
@@ -870,7 +870,7 @@ if ($conn->connect_error) {
     </div>
 </div>
 ```
-2、使用`JS`显示和隐藏菜单
+## 2、使用`JS`显示和隐藏菜单
 ```js
 // 显示添加到购物车表单
 function showAddToCartForm() {
@@ -882,7 +882,7 @@ function hideAddToCartForm() {
     document.getElementById('add-to-cart-form').style.display = 'none';
 }
 ```
-3、使用`AJAX`将表单提交刀片服务端，更新购物车数据
+## 3、使用`AJAX`将表单提交刀片服务端，更新购物车数据
 ```js
 / 处理表单提交
 document.getElementById('cart-form').addEventListener('submit', function(e) {
@@ -904,7 +904,7 @@ document.getElementById('cart-form').addEventListener('submit', function(e) {
         });
 });
 ```
-4、创建`add_to_cart.php`
+## 4、创建`add_to_cart.php`
 这个文件将处理添加到购物车逻辑
 ```php
 <?php
@@ -941,12 +941,12 @@ $conn->close();
     ?>
 
 ```
-5、修改`cart.php`界面
+## 5、修改`cart.php`界面
 先假定用户的id为1(实际情况中应该根据登录的用户获取购物车)
 ```html
 $user_id = 1; 
 ```
-获取购物车的数据
+### 获取购物车的数据
 通过SQL查询获取当前用户购物车中的商品数据，并进行分组和数量累加，结果存储在$result变量中
 ```html
 // 获取购物车数据
@@ -959,7 +959,7 @@ $result = $conn->query($sql);
 $total_items = 0;
 $total_price = 0;
 ```
-此时的页面效果
+### 此时的页面效果
 ![8bae68ac51b854cdb0ecf850c5b58bb.png](https://pic.leetcode.cn/1716262166-iMGmun-8bae68ac51b854cdb0ecf850c5b58bb.png)
 ![ec0c62c9922b3d0a9ff267bf500be68.png](https://pic.leetcode.cn/1716262185-mOZPlt-ec0c62c9922b3d0a9ff267bf500be68.png)
 移除商品模态框
@@ -1031,8 +1031,8 @@ $conn->close();
 ![61a5eefdb5f6757d9da1d8e3c195906.png](https://pic.leetcode.cn/1716262313-bZUgzp-61a5eefdb5f6757d9da1d8e3c195906.png)
 完成以上步骤，可以实现点击商品详情页面中的添加到购物车按钮后弹出表单填写数量，并将商品添加到购物车，购物车页面会显示购物车中的商品，并且用户可以删除购物车中的商品。
 
-### 完善结算功能 
-1、创建和更新数据库表
+# 完善结算功能
+## 1、创建和更新数据库表
 ```html
 CREATE TABLE user_payments (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -1059,7 +1059,7 @@ total_price DECIMAL(10, 2) NOT NULL,
 order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 ```
-2、创建和更新页面,添加支付方式选择和确认订单功能.
+## 2、创建和更新页面,添加支付方式选择和确认订单功能.
 ```html
 添加支付方式
 <div class="form-group">
@@ -1080,7 +1080,7 @@ order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     </select>
 </div>
 ```
-确认订单功能
+### 确认订单功能
 ```html
 <?php foreach ($cart_items as $item): ?>
 <div>
@@ -1090,13 +1090,8 @@ order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 <p>总价：$<span id="total-price"><?php echo $total_price; ?></span></p>
 <button type="submit" class="btn btn-primary">确认付款</button>
 ```
-创建 checkout_process.php，
-
-1、获取表单数据和计算总价
-
-2、从表单数据中获取用户ID、购物车商品列表和支付方式
-
-3、计算购物车商品的总价
+### 创建 checkout_process.php，
+从表单数据中获取用户ID、购物车商品列表和支付方式
 ```html
 $user_id = 1; // 假设用户ID为1，实际情况中应该根据登录用户获取
 $items = $_POST['items'];
@@ -1125,11 +1120,8 @@ if ($row) {
     echo "支付方式不存在";
 }
 ```
-扣款和库存更新
-
+### 扣款和库存更新
 更新用户支付方式余额
-
-遍历购物车商品，检查库存是否足够，更新库存数量
 ```html
 $new_balance = $balance - $total_price;
 $sql = "UPDATE user_payments SET balance = $new_balance WHERE user_id = $user_id AND payment_type = '$payment_type'";
@@ -1139,6 +1131,7 @@ if ($conn->query($sql) === TRUE) {
     echo "扣款失败: " . $conn->error;
 }
 ```
+遍历购物车商品，检查库存是否足够，更新库存数量
 ```html
 $success = true;
 foreach ($items as $item) {
@@ -1171,7 +1164,7 @@ foreach ($items as $item) {
     }
 }
 ```
-创建`success.php`页面
+### 创建`success.php`页面
 显示支付成功信息
 ```html
 <div class="container mt-5">
@@ -1186,10 +1179,10 @@ foreach ($items as $item) {
 ![6a91864d71797b726c70117e9ce6b3d.png](https://pic.leetcode.cn/1716263090-gcUgMA-6a91864d71797b726c70117e9ce6b3d.png)
 ![1a75e774397ddd7d17ce891c65ed680.png](https://pic.leetcode.cn/1716263106-ccOMjb-1a75e774397ddd7d17ce891c65ed680.png)
 
-### 完善登录注册功能
+# 完善登录注册功能
 使用 `PHP` 的 `$_SESSION` 处理用户登录状态。
 
-更改`header.php` 根据会话状态显示登录/注册或退出链接。
+#### 更改`header.php` 根据会话状态显示登录/注册或退出链接。
 
 ```html
 <?php
@@ -1263,7 +1256,7 @@ if (session_status() == PHP_SESSION_NONE) {
 </nav>
 
 ```
-更新所有使用临时用户信息的页面和功能来使用会话中的用户信息。
+#### 更新所有使用临时用户信息的页面和功能来使用会话中的用户信息。
 例如 `index.php`
 ```html
 <?php
@@ -1319,7 +1312,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $sql = "INSERT INTO users (username, password, email) VALUES ('$username', '$password', '$email')";
 
 ```
-#### 初始余额都为10,000,000 元。 
+#### 初始余额都为10,000,000 元。
 `$default_balance = 10000000.00;`
 #### 获取获取用户输入的支付方式数据。
 ```html
@@ -1353,7 +1346,7 @@ exit();
 ![a6c371d0e82f76ec797b71d3dc2febc.png](https://pic.leetcode.cn/1716263836-IhduXG-a6c371d0e82f76ec797b71d3dc2febc.png)
 ![d774b37da5c1bcdc9c1d58b3819c4d0.png](https://pic.leetcode.cn/1716263879-gbsqyc-d774b37da5c1bcdc9c1d58b3819c4d0.png)
 
-### 完善个人中心页面
+# 完善个人中心页面
 修改`checkout_process.php`页面
 
 在支付成功后插入订单数据到 orders 表中，并在 user_profile.php 中展示用户的订单历史。此修改保证了订单数据的持久化存储，并为用户提供了订单历史查看功能
@@ -1523,11 +1516,11 @@ if ($conn->query($sql) === TRUE) {
 添加了更改密码按钮，点击按钮后弹出更改密码的模态框。
 ```html
 <h5 class="modal-title" id="changePasswordModalLabel">更改密码</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+</button>
 function showChangePasswordForm() {
-    $('#changePasswordModal').modal('show');
+$('#changePasswordModal').modal('show');
 }
 ```
 更新用户支付方式的账号信息。
