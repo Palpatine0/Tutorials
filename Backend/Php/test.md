@@ -4,11 +4,11 @@
 1. [H5页面](#H5页面)
 2. [配置php的运行环境](#配置php的运行环境)
 3. [使用include引入PHP代码](#使用include引入PHP代码)
-   1. [修改文件扩展名](#修改文件扩展名)
-   2. [创建文件夹](#创建文件夹)
-   3. [创建通用文件](#创建通用文件)
-
-
+4. [数据库](#数据库)
+5. [完善加入购物车功能](#完善加入购物车功能)
+6. [完善结算功能](#完善结算功能)
+7. [完善登录注册功能](#完善登录注册功能)
+8. [完善个人中心页面](#完善个人中心页面)
 
 在本次的实验中我们来构建一个基于PHP的课程评价APP，此网站的静态网页代码如下，该项目使用了Bootstrap框架：
 # H5页面
@@ -707,7 +707,8 @@
 </body>
 </html>
 ```
-## 4、在页面包含header.php和footer.php，使用include语句引入header.php、footer.php
+## 在页面包含通用文件
+在页面包含header.php和footer.php，使用include语句引入header.php、footer.php
 例如在`index.php`中
 ```html
 <?php include '../inc/header.php'; ?>
@@ -820,25 +821,25 @@ if ($conn->connect_error) {
 ```html
 <!-- 内容 -->
 <div class="container mt-5">
-    <h2>商品详情</h2>
-    <div class="row">
-        <div class="col-md-6">
-            <!-- 商品图片 -->
-            <img id="product-image" src="<?php echo htmlspecialchars($productImage); ?>" class="img-fluid" alt="Product Image">
-        </div>
-        <div class="col-md-6">
-            <!-- 商品名称 -->
-            <h3 id="product-name"><?php echo htmlspecialchars($productName); ?></h3>
-            <!-- 商品描述 -->
-            <p id="product-description"><?php echo htmlspecialchars($productDescription); ?></p>
-            <!-- 商品价格 -->
-            <p id="product-price">价格: $<?php echo htmlspecialchars($productPrice); ?></p>
-            <!-- 商品库存 -->
-            <p id="product-availability">库存: <?php echo htmlspecialchars($productAvailability); ?></p>
-            <!-- 添加到购物车按钮 -->
-            <button class="btn btn-primary" onclick="addToCart()">添加到购物车</button>
-        </div>
-    </div>
+   <h2>商品详情</h2>
+   <div class="row">
+      <div class="col-md-6">
+         <!-- 商品图片 -->
+         <img id="product-image" src="<?php echo htmlspecialchars($productImage); ?>" class="img-fluid" alt="Product Image">
+      </div>
+      <div class="col-md-6">
+         <!-- 商品名称 -->
+         <h3 id="product-name"><?php echo htmlspecialchars($productName); ?></h3>
+         <!-- 商品描述 -->
+         <p id="product-description"><?php echo htmlspecialchars($productDescription); ?></p>
+         <!-- 商品价格 -->
+         <p id="product-price">价格: $<?php echo htmlspecialchars($productPrice); ?></p>
+         <!-- 商品库存 -->
+         <p id="product-availability">库存: <?php echo htmlspecialchars($productAvailability); ?></p>
+         <!-- 添加到购物车按钮 -->
+         <button class="btn btn-primary" onclick="addToCart()">添加到购物车</button>
+      </div>
+   </div>
 </div>
 
 ```
@@ -850,52 +851,52 @@ if ($conn->connect_error) {
 ```html
 <!-- 添加到购物车表单 -->
 <div id="add-to-cart-form" style="display: none;">
-    <div class="container mt-5">
-        <h3>添加到购物车</h3>
-        <form id="cart-form">
-            <div class="form-group">
-                <label for="quantity">数量</label>
-                <input type="number" class="form-control" id="quantity" name="quantity" min="1" max="<?php echo htmlspecialchars($productAvailability); ?>" required>
-            </div>
-            <input type="hidden" id="product_id" name="product_id" value="<?php echo htmlspecialchars($product_id); ?>">
-                <button type="submit" class="btn btn-primary">确认</button>
-                <button type="button" class="btn btn-secondary" onclick="hideAddToCartForm()">取消</button>
-        </form>
-    </div>
+   <div class="container mt-5">
+      <h3>添加到购物车</h3>
+      <form id="cart-form">
+         <div class="form-group">
+            <label for="quantity">数量</label>
+            <input type="number" class="form-control" id="quantity" name="quantity" min="1" max="<?php echo htmlspecialchars($productAvailability); ?>" required>
+         </div>
+         <input type="hidden" id="product_id" name="product_id" value="<?php echo htmlspecialchars($product_id); ?>">
+         <button type="submit" class="btn btn-primary">确认</button>
+         <button type="button" class="btn btn-secondary" onclick="hideAddToCartForm()">取消</button>
+      </form>
+   </div>
 </div>
 ```
 ## 2、使用`JS`显示和隐藏菜单
 ```js
 // 显示添加到购物车表单
 function showAddToCartForm() {
-    document.getElementById('add-to-cart-form').style.display = 'block';
+   document.getElementById('add-to-cart-form').style.display = 'block';
 }
 
 // 隐藏添加到购物车表单
 function hideAddToCartForm() {
-    document.getElementById('add-to-cart-form').style.display = 'none';
+   document.getElementById('add-to-cart-form').style.display = 'none';
 }
 ```
 ## 3、使用`AJAX`将表单提交刀片服务端，更新购物车数据
 ```js
 / 处理表单提交
 document.getElementById('cart-form').addEventListener('submit', function(e) {
-    e.preventDefault();
+   e.preventDefault();
 
-    var formData = new FormData(this);
+   var formData = new FormData(this);
 
-    fetch('add_to_cart.php', {
-        method: 'POST',
-        body: formData
-    })
-        .then(response => response.text())
-        .then(data => {
-            alert('商品已添加到购物车!');
-            hideAddToCartForm();
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
+   fetch('add_to_cart.php', {
+      method: 'POST',
+      body: formData
+   })
+   .then(response => response.text())
+   .then(data => {
+      alert('商品已添加到购物车!');
+      hideAddToCartForm();
+   })
+   .catch(error => {
+      console.error('Error:', error);
+   });
 });
 ```
 ## 4、创建`add_to_cart.php`
@@ -1002,23 +1003,23 @@ $conn->close();
 ```html
 <!-- 移除商品模态框 -->
 <div class="modal fade" id="removeModal" tabindex="-1" aria-labelledby="removeModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="removeModalLabel">移除商品</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <input type="number" class="form-control mb-2" id="removeQuantity" min="1" value="1">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-danger" id="confirmRemove">确认移除</button>
-            </div>
-        </div>
-    </div>
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="removeModalLabel">移除商品</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+               <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <div class="modal-body">
+            <input type="number" class="form-control mb-2" id="removeQuantity" min="1" value="1">
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-danger" id="confirmRemove">确认移除</button>
+         </div>
+      </div>
+   </div>
 </div>
 ```
 效果图
@@ -1029,11 +1030,11 @@ $conn->close();
 ## 1、创建和更新数据库表
 ```html
 CREATE TABLE user_payments (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,
-    payment_type VARCHAR(50) NOT NULL,
-    account VARCHAR(100) NOT NULL,
-    balance DECIMAL(10, 2) NOT NULL
+id INT AUTO_INCREMENT PRIMARY KEY,
+user_id INT NOT NULL,
+payment_type VARCHAR(50) NOT NULL,
+account VARCHAR(100) NOT NULL,
+balance DECIMAL(10, 2) NOT NULL
 );
 更新 products 表，确保包含商品的库存信息。
 ALTER TABLE products ADD COLUMN availability INT NOT NULL;
@@ -1057,28 +1058,28 @@ order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ```html
 添加支付方式
 <div class="form-group">
-    <label for="payment_method">选择支付方式</label>
-    <select class="form-control" id="payment_method" name="payment_method" required>
-        <?php
+   <label for="payment_method">选择支付方式</label>
+   <select class="form-control" id="payment_method" name="payment_method" required>
+      <?php
         $sql = "SELECT * FROM user_payments WHERE user_id = $user_id";
         $result = $conn->query($sql);
 
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                echo '<option value="' . htmlspecialchars($row['id']) . '">' . htmlspecialchars($row['payment_type']) . ' (余额: $' . htmlspecialchars($row['balance']) . ')</option>';
-            }
-        } else {
-            echo '<option value="">没有可用的支付方式</option>';
-        }
-        ?>
-    </select>
+      if ($result->num_rows > 0) {
+      while ($row = $result->fetch_assoc()) {
+      echo '<option value="' . htmlspecialchars($row['id']) . '">' . htmlspecialchars($row['payment_type']) . ' (余额: $' . htmlspecialchars($row['balance']) . ')</option>';
+      }
+      } else {
+      echo '<option value="">没有可用的支付方式</option>';
+      }
+      ?>
+   </select>
 </div>
 ```
 ### 确认订单功能
 ```html
 <?php foreach ($cart_items as $item): ?>
 <div>
-    <p><?php echo htmlspecialchars($item['name']); ?> - 数量：<?php echo htmlspecialchars($item['quantity']); ?> - 总价：$<?php echo htmlspecialchars($item['total_price']); ?></p>
+   <p><?php echo htmlspecialchars($item['name']); ?> - 数量：<?php echo htmlspecialchars($item['quantity']); ?> - 总价：$<?php echo htmlspecialchars($item['total_price']); ?></p>
 </div>
 <?php endforeach; ?>
 <p>总价：$<span id="total-price"><?php echo $total_price; ?></span></p>
@@ -1093,7 +1094,7 @@ $payment_type = $_POST['payment_type'];
 
 $total_price = 0;
 foreach ($items as $item) {
-    $total_price += $item['price'] * $item['quantity'];
+$total_price += $item['price'] * $item['quantity'];
 }
 ```
 余额检查,查询用户选择的支付方式余额、检查是否足够支付总价
@@ -1103,15 +1104,15 @@ $result = $conn->query($sql);
 $row = $result->fetch_assoc();
 
 if ($row) {
-    $balance = $row['balance'];
+$balance = $row['balance'];
 
-    if ($balance >= $total_price) {
-        // 扣款逻辑在这里
-    } else {
-        echo "余额不足，请选择其它支付方式";
-    }
+if ($balance >= $total_price) {
+// 扣款逻辑在这里
 } else {
-    echo "支付方式不存在";
+echo "余额不足，请选择其它支付方式";
+}
+} else {
+echo "支付方式不存在";
 }
 ```
 ### 扣款和库存更新
@@ -1120,51 +1121,51 @@ if ($row) {
 $new_balance = $balance - $total_price;
 $sql = "UPDATE user_payments SET balance = $new_balance WHERE user_id = $user_id AND payment_type = '$payment_type'";
 if ($conn->query($sql) === TRUE) {
-    // 更新库存逻辑在这里
+// 更新库存逻辑在这里
 } else {
-    echo "扣款失败: " . $conn->error;
+echo "扣款失败: " . $conn->error;
 }
 ```
 遍历购物车商品，检查库存是否足够，更新库存数量
 ```html
 $success = true;
 foreach ($items as $item) {
-    $product_id = $item['id'];
-    $quantity = $item['quantity'];
+$product_id = $item['id'];
+$quantity = $item['quantity'];
 
-    // 获取当前库存
-    $sql = "SELECT availability FROM products WHERE id = $product_id";
-    $result = $conn->query($sql);
-    $row = $result->fetch_assoc();
+// 获取当前库存
+$sql = "SELECT availability FROM products WHERE id = $product_id";
+$result = $conn->query($sql);
+$row = $result->fetch_assoc();
 
-    if ($row) {
-        $current_stock = $row['availability'];
+if ($row) {
+$current_stock = $row['availability'];
 
-        // 检查库存是否足够
-        if ($current_stock >= $quantity) {
-            $new_stock = $current_stock - $quantity;
-            $sql = "UPDATE products SET availability = $new_stock WHERE id = $product_id";
-            if ($conn->query($sql) !== TRUE) {
-                $success = false;
-                break;
-            }
-        } else {
-            $success = false;
-            break;
-        }
-    } else {
-        $success = false;
-        break;
-    }
+// 检查库存是否足够
+if ($current_stock >= $quantity) {
+$new_stock = $current_stock - $quantity;
+$sql = "UPDATE products SET availability = $new_stock WHERE id = $product_id";
+if ($conn->query($sql) !== TRUE) {
+$success = false;
+break;
+}
+} else {
+$success = false;
+break;
+}
+} else {
+$success = false;
+break;
+}
 }
 ```
 ### 创建`success.php`页面
 显示支付成功信息
 ```html
 <div class="container mt-5">
-    <h2>支付成功</h2>
-    <p>您的订单已成功支付。感谢您的购买！</p>
-    <a href="index.php" class="btn btn-primary">返回首页</a>
+   <h2>支付成功</h2>
+   <p>您的订单已成功支付。感谢您的购买！</p>
+   <a href="index.php" class="btn btn-primary">返回首页</a>
 </div>
 <?php include '../inc/footer.php'; ?>
 ```
@@ -1186,68 +1187,68 @@ if (session_status() == PHP_SESSION_NONE) {
 ?>
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>在线商店</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        /* 自定义样式 */
-        body {
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>在线商店</title>
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+      <style>
+         /* 自定义样式 */
+         body {
             padding-top: 56px; /* 修复导航栏高度 */
-        }
-        .footer {
+         }
+         .footer {
             position: fixed;
             bottom: 0;
             width: 100%;
-        }
-        .product-card {
+         }
+         .product-card {
             margin-bottom: 20px;
-        }
-        .product-card img {
+         }
+         .product-card img {
             height: 200px;
             object-fit: cover;
-        }
-    </style>
-</head>
-<body>
-<!-- 导航栏 -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <div class="container">
-        <a class="navbar-brand" href="index.php">在线商城</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="index.php">首页</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="user_profile.php">个人中心</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="cart.php">购物车</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="checkout.php">结算</a>
-                </li>
-                <?php if (isset($_SESSION['user_id'])): ?>
-                <li class="nav-item">
-                    <a class="nav-link" href="logout.php">退出</a>
-                </li>
-                <?php else: ?>
-                <li class="nav-item">
-                    <a class="nav-link" href="login.php">登录</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="register.php">注册</a>
-                </li>
-                <?php endif; ?>
-            </ul>
-        </div>
-    </div>
-</nav>
+         }
+      </style>
+   </head>
+   <body>
+      <!-- 导航栏 -->
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+         <div class="container">
+            <a class="navbar-brand" href="index.php">在线商城</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+               <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+               <ul class="navbar-nav ml-auto">
+                  <li class="nav-item">
+                     <a class="nav-link" href="index.php">首页</a>
+                  </li>
+                  <li class="nav-item">
+                     <a class="nav-link" href="user_profile.php">个人中心</a>
+                  </li>
+                  <li class="nav-item">
+                     <a class="nav-link" href="cart.php">购物车</a>
+                  </li>
+                  <li class="nav-item">
+                     <a class="nav-link" href="checkout.php">结算</a>
+                  </li>
+                  <?php if (isset($_SESSION['user_id'])): ?>
+                  <li class="nav-item">
+                     <a class="nav-link" href="logout.php">退出</a>
+                  </li>
+                  <?php else: ?>
+                  <li class="nav-item">
+                     <a class="nav-link" href="login.php">登录</a>
+                  </li>
+                  <li class="nav-item">
+                     <a class="nav-link" href="register.php">注册</a>
+                  </li>
+                  <?php endif; ?>
+               </ul>
+            </div>
+         </div>
+      </nav>
 
 ```
 #### 更新所有使用临时用户信息的页面和功能来使用会话中的用户信息。
@@ -1267,24 +1268,24 @@ if (!isset($_SESSION['user_id'])) {
 处理表单提交，验证用户名和密码。如果验证通过，则设置会话变量并重定向到首页。
 ```html
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+$username = $_POST['username'];
+$password = $_POST['password'];
 
-    $sql = "SELECT * FROM users WHERE username='$username'";
-    $result = $conn->query($sql);
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        if (password_verify($password, $row['password'])) {
-            $_SESSION['user_id'] = $row['id'];
-            $_SESSION['username'] = $row['username'];
-            header("Location: index.php");
-            exit();
-        } else {
-            echo "<script>alert('密码错误');</script>";
-        }
-    } else {
-        echo "<script>alert('用户名不存在');</script>";
-    }
+$sql = "SELECT * FROM users WHERE username='$username'";
+$result = $conn->query($sql);
+if ($result->num_rows > 0) {
+$row = $result->fetch_assoc();
+if (password_verify($password, $row['password'])) {
+$_SESSION['user_id'] = $row['id'];
+$_SESSION['username'] = $row['username'];
+header("Location: index.php");
+exit();
+} else {
+echo "<script>alert('密码错误');</script>";
+}
+} else {
+echo "<script>alert('用户名不存在');</script>";
+}
 }
 ```
 #### 完善`register.php`
@@ -1311,18 +1312,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 #### 获取获取用户输入的支付方式数据。
 ```html
 if ($conn->query($sql) === TRUE) {
-    $user_id = $conn->insert_id;
-    // 插入支付方式
-    $sql_payments = "INSERT INTO user_payments (user_id, payment_type, account, balance) VALUES
-    ($user_id, '支付宝', '$alipay_account', $default_balance),
-        ($user_id, '银行卡', '$bank_account', $default_balance),
-        ($user_id, '信用卡', '$credit_card_account', $default_balance),
-        ($user_id, '微信支付', '$wechat_account', $default_balance)";
-    if ($conn->query($sql_payments) === TRUE) {
-        echo "<script>alert('注册成功！'); window.location.href='login.php';</script>";
-    } else {
-        echo "支付方式添加失败: " . $conn->error;
-    }
+$user_id = $conn->insert_id;
+// 插入支付方式
+$sql_payments = "INSERT INTO user_payments (user_id, payment_type, account, balance) VALUES
+($user_id, '支付宝', '$alipay_account', $default_balance),
+($user_id, '银行卡', '$bank_account', $default_balance),
+($user_id, '信用卡', '$credit_card_account', $default_balance),
+($user_id, '微信支付', '$wechat_account', $default_balance)";
+if ($conn->query($sql_payments) === TRUE) {
+echo "<script>alert('注册成功！'); window.location.href='login.php';</script>";
+} else {
+echo "支付方式添加失败: " . $conn->error;
+}
 }
 ```
 #### 创建`logout.php` 注销逻辑
@@ -1356,10 +1357,10 @@ $conn->query($sql);
 #### 2、更新产品库存
 ```html
 foreach ($cart_items as $item) {
-        $new_availability = $item['availability'] - $item['quantity'];
-        $sql = "UPDATE products SET availability = $new_availability WHERE id = " . $item['id'];
-        $conn->query($sql);
-    }
+$new_availability = $item['availability'] - $item['quantity'];
+$sql = "UPDATE products SET availability = $new_availability WHERE id = " . $item['id'];
+$conn->query($sql);
+}
 ```
 #### 3、插入订单数据
 ```html
@@ -1379,29 +1380,29 @@ $conn->query($order_sql);
 允许用户在个人中心页面编辑和更新自己的个人信息，包括用户名、密码和邮箱。 在 `user_profile.php` 中添加用户信息编辑表单， 添加原密码输入框，确保用户在修改密码时输入正确的原密码
 ```html
  <h2>用户个人中心</h2>
-    <div class="row">
-        <div class="col-md-6">
-            <h3>个人信息</h3>
-            <form id="profile-form" method="post" action="update_profile.php">
-                <div class="form-group">
-                    <label for="username">用户名</label>
-                    <input type="text" class="form-control" id="username" name="username" value="<?php echo htmlspecialchars($user_info['username']); ?>" required>
-                </div>
-                <div class="form-group">
-                    <label for="email">邮箱</label>
-                    <input type="email" class="form-control" id="email" name="email" value="<?php echo htmlspecialchars($user_info['email']); ?>" required>
-                </div>
-                <div class="form-group">
-                    <label for="current_password">原密码</label>
-                    <input type="password" class="form-control" id="current_password" name="current_password" placeholder="输入原密码">
-                </div>
-                <div class="form-group">
-                    <label for="new_password">新密码</label>
-                    <input type="password" class="form-control" id="new_password" name="new_password" placeholder="输入新密码">
-                </div>
-                <button type="submit" class="btn btn-primary">更新信息</button>
-            </form>
-        </div>
+<div class="row">
+   <div class="col-md-6">
+      <h3>个人信息</h3>
+      <form id="profile-form" method="post" action="update_profile.php">
+         <div class="form-group">
+            <label for="username">用户名</label>
+            <input type="text" class="form-control" id="username" name="username" value="<?php echo htmlspecialchars($user_info['username']); ?>" required>
+         </div>
+         <div class="form-group">
+            <label for="email">邮箱</label>
+            <input type="email" class="form-control" id="email" name="email" value="<?php echo htmlspecialchars($user_info['email']); ?>" required>
+         </div>
+         <div class="form-group">
+            <label for="current_password">原密码</label>
+            <input type="password" class="form-control" id="current_password" name="current_password" placeholder="输入原密码">
+         </div>
+         <div class="form-group">
+            <label for="new_password">新密码</label>
+            <input type="password" class="form-control" id="new_password" name="new_password" placeholder="输入新密码">
+         </div>
+         <button type="submit" class="btn btn-primary">更新信息</button>
+      </form>
+   </div>
 
 ```
 
@@ -1428,9 +1429,9 @@ if ($password) {
 $sql .= " WHERE id=$user_id";
 
 if ($conn->query($sql) === TRUE) {
-    echo "<script>alert('信息更新成功'); window.location.href='user_profile.php';</script>";
+echo "<script>alert('信息更新成功'); window.location.href='user_profile.php';</script>";
 } else {
-    echo "更新失败: " . $conn->error;
+echo "更新失败: " . $conn->error;
 }
 
 $conn->close();
@@ -1442,40 +1443,40 @@ $conn->close();
 在 user_profile.php 中添加支付方式管理部分
 ```html
 <form id="payments-form" method="post" action="update_payments.php">
-                <div class="form-group">
-                    <label for="payment_id">选择支付方式</label>
-                    <select class="form-control" id="payment_id" name="payment_id" required>
-                        <?php if ($payments_result->num_rows > 0): ?>
-                            <?php while ($payment = $payments_result->fetch_assoc()): ?>
-                                <option value="<?php echo $payment['id']; ?>"><?php echo htmlspecialchars($payment['payment_type']) . " - " . htmlspecialchars($payment['account']) . " (余额: $" . htmlspecialchars($payment['balance']) . ")"; ?></option>
-                            <?php endwhile; ?>
-                        <?php else: ?>
-                            <option value="">没有支付方式</option>
-                        <?php endif; ?>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="account">新账号</label>
-                    <input type="text" class="form-control" id="account" name="account" required>
-                </div>
-                <button type="submit" class="btn btn-primary">更新支付方式</button>
-            </form>
+   <div class="form-group">
+      <label for="payment_id">选择支付方式</label>
+      <select class="form-control" id="payment_id" name="payment_id" required>
+         <?php if ($payments_result->num_rows > 0): ?>
+         <?php while ($payment = $payments_result->fetch_assoc()): ?>
+         <option value="<?php echo $payment['id']; ?>"><?php echo htmlspecialchars($payment['payment_type']) . " - " . htmlspecialchars($payment['account']) . " (余额: $" . htmlspecialchars($payment['balance']) . ")"; ?></option>
+         <?php endwhile; ?>
+         <?php else: ?>
+         <option value="">没有支付方式</option>
+         <?php endif; ?>
+      </select>
+   </div>
+   <div class="form-group">
+      <label for="account">新账号</label>
+      <input type="text" class="form-control" id="account" name="account" required>
+   </div>
+   <button type="submit" class="btn btn-primary">更新支付方式</button>
+</form>
 ```
 展示现有的支付方式
 ```html
 <ul>
-                <?php
+   <?php
                 $payments_sql = "SELECT * FROM user_payments WHERE user_id = $user_id";
                 $payments_result = $conn->query($payments_sql);
-                if ($payments_result->num_rows > 0) {
-                    while ($payment = $payments_result->fetch_assoc()) {
-                        echo "<li>" . htmlspecialchars($payment['payment_type']) . " - " . htmlspecialchars($payment['account']) . " (余额: $" . htmlspecialchars($payment['balance']) . ") <a href='delete_payment.php?id=" . $payment['id'] . "' class='btn btn-danger btn-sm'>删除</a></li>";
-                    }
-                } else {
-                    echo "<li>没有支付方式。</li>";
-                }
-                ?>
-            </ul>
+   if ($payments_result->num_rows > 0) {
+   while ($payment = $payments_result->fetch_assoc()) {
+   echo "<li>" . htmlspecialchars($payment['payment_type']) . " - " . htmlspecialchars($payment['account']) . " (余额: $" . htmlspecialchars($payment['balance']) . ") <a href='delete_payment.php?id=" . $payment['id'] . "' class='btn btn-danger btn-sm'>删除</a></li>";
+   }
+   } else {
+   echo "<li>没有支付方式。</li>";
+   }
+   ?>
+</ul>
 ```
 创建一个新的 `update_payments.php` 处理添加
 ```html
@@ -1492,9 +1493,9 @@ if (!isset($_SESSION['user_id'])) {
 ```html
 $sql = "UPDATE user_payments SET account='$account' WHERE id=$payment_id AND user_id=$user_id";
 if ($conn->query($sql) === TRUE) {
-    echo "<script>alert('支付方式更新成功'); window.location.href='user_profile.php';</script>";
+echo "<script>alert('支付方式更新成功'); window.location.href='user_profile.php';</script>";
 } else {
-    echo "更新失败: " . $conn->error;
+echo "更新失败: " . $conn->error;
 }
 ```
 创建一个`delete_payment.php` 删除支付方式的请求
@@ -1502,16 +1503,16 @@ if ($conn->query($sql) === TRUE) {
 $sql = "DELETE FROM user_payments WHERE id=$payment_id AND user_id=$user_id";
 
 if ($conn->query($sql) === TRUE) {
-    echo "<script>alert('支付方式删除成功'); window.location.href='user_profile.php';</script>";
+echo "<script>alert('支付方式删除成功'); window.location.href='user_profile.php';</script>";
 } else {
-    echo "删除失败: " . $conn->error;
+echo "删除失败: " . $conn->error;
 }
 ```
 添加了更改密码按钮，点击按钮后弹出更改密码的模态框。
 ```html
 <h5 class="modal-title" id="changePasswordModalLabel">更改密码</h5>
 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
+   <span aria-hidden="true">&times;</span>
 </button>
 function showChangePasswordForm() {
 $('#changePasswordModal').modal('show');
