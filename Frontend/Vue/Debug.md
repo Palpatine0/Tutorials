@@ -33,15 +33,15 @@ sudo chmod -R u+rwx
 <img style="height: 30px" src="https://assets.leetcode.com/users/images/845b194a-7d4b-4d60-a266-5ef4796aeb35_1714122604.064862.jpeg">
 
 2. reinstall npm
-```shell
+```bash
 npm install
 ```
 ## <span style="color: red">having trouble running project downloads from other sources</span>
 
 **Solution**
-```shell
-rm -rf node_modules
-rm package-lock.json
+```bash
+sudo rm -rf node_modules
+sudo rm package-lock.json
 npm install
 npm run serve
 ```
