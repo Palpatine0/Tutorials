@@ -22,3 +22,17 @@ nc -zv <server IP> <port number>
 ```bash
 unzip <filename.zip>
 ```
+
+## Kill process occupying port
+### Step 1: Crate download `lsof`
+```bash
+sudo yum install lsof -y
+```
+### Step 2: Locate processing occupying the port
+```bash
+lsof -i :<port id>
+```
+### Step 3: Kill process
+```bash
+sudo kill -9 <pid>
+```

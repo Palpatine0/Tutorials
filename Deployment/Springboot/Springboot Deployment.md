@@ -13,8 +13,14 @@ cd <project target dir>
 scp <your-application.jar> root@<server IP>:<a dir on your server>
 ```
 
+> **BE NOTE THAT**, if your project is using `.env`, this file should be place on the same dir where u store your `jar` file
+
 ### Step 3: Run the app
 ```bash
 cd <path to your jar file>
-java -jar <your application.jar>
+nohup java -jar <your application.jar> &
+```
+**check logs**
+```bash
+tail -f nohup.out
 ```

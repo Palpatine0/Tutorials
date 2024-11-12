@@ -11,5 +11,8 @@ docker load < <dir>
 ```bash
 docker save <img_name> > <img_name>.tar 
 ```
-
+## Rename
+```bash
+docker rename <old_container_name> <new_container_name>
+```
 
