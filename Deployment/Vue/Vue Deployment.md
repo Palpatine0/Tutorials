@@ -39,7 +39,7 @@ EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
 ```
 
-### Step 2: Crate a `docker-compose` on your vue project root dir
+### Step 2: Crate a `docker-compose.yml` on your vue project root dir
 
 ```yaml
 version: '3'
@@ -87,6 +87,7 @@ scp <file need to send out> root@<server IP>:<a dir on your server>
 
 ### Step 6: Compose
 ```bash
+docker-compose build --no-cache
 docker-compose up -d
 ```
 

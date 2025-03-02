@@ -1,4 +1,6 @@
-# SSH Keys Generate
+# Commands
+
+## SSH Keys Generate
 
 ##### Process
 **S1: generate the key**
@@ -12,4 +14,9 @@ ssh-keygen -t ed25519 -C "your_email@example.com"
 ```bash
 cd /path/to/your/key
 cat your_key.pub | pbcopy
+```
+
+## Remove File from Being Commit 
+```bash
+git rm --cached -r <your file name>
 ```

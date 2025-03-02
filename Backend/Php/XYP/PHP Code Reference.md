@@ -2,10 +2,11 @@
 
 # <span style="color: #990000">Tools</span>
 
-# 1 API
+# 1 APIs
+
 ## Time
 
-### string to timestamp
+### String to timestamp
 
 **PHP**
 
@@ -13,21 +14,34 @@
 strtotime("2024-03-05");
 ```
 
-#### timestamp to string
+#### Timestamp to string
 
 ```php
 {$REPLACE|date='Y-m-d H:i:s',###}
 ```
 
-## Data Transmision
+## Data Transmission
+
 **HTML**
 ```html
 <input type="text" class="huge bLeftRequire input " name="uid" id='uid' value="{$uid}">
 ```
 
---------------------------------------------------------
+# 2 Variables
 
-# 2 Functional Code Combo
+## $_SERVER
+
+**`$_SERVER['HTTP_HOST']`**
+
+Get current host name
+
+```php
+$url = "http://{$_SERVER['HTTP_HOST']}" ;
+```
+
+---
+
+# 3 Functional Code Combos
 
 ## Ajax
 
