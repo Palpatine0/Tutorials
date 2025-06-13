@@ -1,4 +1,4 @@
-# Commands
+# Solutions
 
 ## SSH Keys Generate
 
@@ -15,6 +15,7 @@ ssh-keygen -t ed25519 -C "your_email@example.com"
 cd /path/to/your/key
 cat your_key.pub | pbcopy
 ```
+
 
 ## Remove File from Being Commit 
 ```bash
