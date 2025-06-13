@@ -65,6 +65,39 @@ trap 'filter_history' DEBUG
 ```
 
 ### Step 2: Source `.bashrc`
-```text
+```bash
 source ~/.bashrc
+```
+
+## Run commands on CentOS automatically at boot time
+In this example, I will try to run `nohup java -jar /www/jar/xyp-api/xyp-api-0.0.1-SNAPSHOT.jar > xyp-api-nohup 2>&1 &`, a command to start a SpringBoot project when system started
+
+### Step 1: Create a service file
+```bash
+sudo nano /etc/systemd/system/xyp-api.service
+```
+### Step 2: Add this into the file:
+```ini
+[Unit]
+Description=XYP API Java Service
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/nohup java -jar /www/jar/xyp-api/xyp-api-0.0.1-SNAPSHOT.jar
+WorkingDirectory=/www/jar/xyp-api
+StandardOutput=append:/www/jar/xyp-api/xyp-api-nohup
+StandardError=append:/www/jar/xyp-api/xyp-api-nohup
+Restart=always
+User=root
+
+[Install]
+WantedBy=multi-user.target
+```
+### Step 3: Enable & start the service:
+```bash
+sudo systemctl daemon-reexec
+sudo systemctl daemon-reload
+sudo systemctl enable xyp-api
+sudo systemctl start xyp-api
 ```
