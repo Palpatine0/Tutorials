@@ -1,4 +1,4 @@
-# Solutions
+# Commands
 
 ## SSH Keys Generate
 
@@ -17,7 +17,13 @@ cat your_key.pub | pbcopy
 ```
 
 
-## Remove File from Being Commit 
+## Prevent File from Being Commit 
 ```bash
 git rm --cached -r <your file name>
+```
+
+## Unstage File
+Move files from changes to unversioned
+```bash
+git reset <file or folder to unstage>
 ```
